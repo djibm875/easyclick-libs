@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - iEasyClick</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="devices.html">Devices</a></li>
+            <li><a href="tasks.html">Tasks</a></li>
+            <li><a href="#" id="logoutButton">Logout</a></li>
+        </ul>
+    </nav>
+    <div class="container main-content">
+        <h2>Welcome to the Dashboard!</h2>
+        <p>This is a placeholder page.</p>
+        <pre id="userInfo"></pre>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const storedUser = localStorage.getItem("currentUser");
+            if (storedUser) {
+                const user = JSON.parse(storedUser);
+                document.getElementById("userInfo").textContent = "User: " + user.username + "\nRole: " + user.role + "\nTenant ID: " + user.tenant_id;
+            } else {
+                // If no user info, redirect to login (or show login link)
+                // For simplicity, assume user should be here if they see this page.
+                 window.location.href = "login.html";
+            }
+
+            const logoutButton = document.getElementById("logoutButton");
+            if(logoutButton) {
+                logoutButton.addEventListener("click", async function(e) {
+                    e.preventDefault();
+                    try {
+                        const response = await fetch("/auth/logout", { method: "POST" });
+                        if(response.ok) {
+                            localStorage.removeItem("currentUser");
+                            window.location.href = "login.html";
+                        } else {
+                            alert("Logout failed.");
+                        }
+                    } catch (error) {
+                        console.error("Logout error:", error);
+                        alert("Error during logout.");
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

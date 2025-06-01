@@ -1,0 +1,39 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Python virtual environment
+venv/
+.venv/
+env/
+*.pyc
+__pycache__/
+*.egg-info/
+*.egg
+
+# IDE / OS specific
+.idea/
+.vscode/
+*.DS_Store
+
+# Test files (if not needed in image, though sometimes they are run in a test stage)
+tests/
+pytest.ini
+.pytest_cache/
+coverage.xml
+htmlcov/
+
+# Local instance data
+app.db
+migrations/ # Migrations should be run by the entrypoint or as part of deployment, not baked into image usually
+# Or, if you run migrations during build, ensure the DB is not the production one.
+
+# Secrets / config files that should not be in the image
+*.env
+config.py.local
+instance/
+# Add other sensitive or large files/directories
